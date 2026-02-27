@@ -1,0 +1,13 @@
+# Slim build for Railway (4 GB image limit)
+# Excludes sentence-transformers (~5 GB) - uses Triton or OpenAI API instead
+fastapi
+uvicorn
+psycopg2-binary
+sqlalchemy
+python-dotenv
+openai
+pgvector
+numpy
+pydantic
+requests
+scikit-learn

@@ -1,0 +1,4 @@
+# Slim build for Railway (4 GB image limit)
+# Excludes sentence-transformers (~5 GB PyTorch)
+[phases.install]
+cmds = ["pip install -r requirements-railway.txt"]

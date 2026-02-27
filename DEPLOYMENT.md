@@ -72,6 +72,8 @@ Render uses the [deploy docs](https://render.com/docs/deploys) flow: build → s
 5. Deploy. The backend uses `Procfile` or `railway.json` in `backend/` for the start command.
 6. Copy the backend URL (e.g. `https://root-cause-analyzer-production-xxxx.up.railway.app`).
 
+**Railway build note:** The project uses `requirements-railway.txt` (slim, no sentence-transformers) to stay under the 4 GB image limit. Add **TRITON_API_KEY** + **TRITON_API_URL** or **OPENAI_API_KEY** as env vars for embeddings.
+
 ---
 
 ## Step 2: Deploy frontend on Streamlit Community Cloud
