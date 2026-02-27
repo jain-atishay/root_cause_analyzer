@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY . /app/
 
-RUN pip install --no-cache-dir -r requirements.txt
+# REQUIREMENTS_FILE: use requirements-railway.txt for Railway (4GB limit), requirements.txt for local
+ARG REQUIREMENTS_FILE=requirements-railway.txt
+RUN pip install --no-cache-dir -r ${REQUIREMENTS_FILE}
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
