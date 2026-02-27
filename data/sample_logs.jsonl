@@ -1,0 +1,3 @@
+{"timestamp":"2025-05-01T10:00:01", "level":"ERROR","service":"auth","message":"database timeout while verifying session"}
+{"timestamp":"2025-05-01T10:00:02", "level":"ERROR","service":"auth","message":"cannot reach postgres instance"}
+{"timestamp":"2025-05-01T10:00:03", "level":"INFO","service":"billing","message":"payment processed"}

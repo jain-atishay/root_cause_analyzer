@@ -1,0 +1,8 @@
+{"timestamp": "2024-01-15T10:23:45", "level": "ERROR", "service": "api-gateway", "message": "database connection timed out after 30s"}
+{"timestamp": "2024-01-15T10:24:12", "level": "WARN", "service": "auth-service", "message": "Redis connection pool exhausted, waiting for available connection"}
+{"timestamp": "2024-01-15T10:25:33", "level": "ERROR", "service": "payment-service", "message": "database connection refused - connection timed out"}
+{"timestamp": "2024-01-15T10:26:01", "level": "ERROR", "service": "user-service", "message": "failed to connect to postgres: connection timeout"}
+{"timestamp": "2024-01-15T10:27:45", "level": "INFO", "service": "api-gateway", "message": "request completed successfully"}
+{"timestamp": "2024-01-15T10:28:22", "level": "ERROR", "service": "notification-service", "message": "database connection pool exhausted"}
+{"timestamp": "2024-01-15T10:29:10", "level": "WARN", "service": "search-service", "message": "elasticsearch query timed out after 5 seconds"}
+{"timestamp": "2024-01-15T10:30:00", "level": "ERROR", "service": "order-service", "message": "connection to database timed out during transaction"}

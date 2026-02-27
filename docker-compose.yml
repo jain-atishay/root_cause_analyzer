@@ -1,0 +1,48 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: logdb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: logs
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    restart: always
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: analyzer-backend
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/logs
+      - TRITON_API_KEY=${TRITON_API_KEY}
+      - TRITON_API_URL=${TRITON_API_URL}
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    restart: always
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ../Dockerfile.frontend
+    container_name: analyzer-frontend
+    depends_on:
+      - backend
+    ports:
+      - "8501:8501"
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - BACKEND_URL=http://backend:8000
+
+volumes:
+  db_data:

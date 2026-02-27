@@ -1,0 +1,25 @@
+# Render Blueprint - Backend + PostgreSQL
+# Deploy: Render Dashboard → New → Blueprint → Connect this repo
+# Docs: https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: root-cause-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: root-cause-db
+          property: connectionString
+      # Optional: add for Triton/LLM (set in Dashboard if needed)
+      # - key: TRITON_API_KEY
+      #   sync: false
+      # - key: TRITON_API_URL
+      #   sync: false
+
+databases:
+  - name: root-cause-db
+    plan: free
