@@ -301,7 +301,7 @@ with tab4:
             try:
                 r = requests.post(
                     f"{BACKEND_URL}/ingest/deployments",
-                    json={"file_path": "sample_deployments.json"},
+                    json={"file_path": "sample_deployments.sample"},
                     timeout=30,
                 )
                 r.raise_for_status()

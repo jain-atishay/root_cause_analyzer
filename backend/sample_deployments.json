@@ -1,9 +1,0 @@
-[
-  {"service": "api-gateway", "version": "v2.1.0", "deployed_at": "2024-01-15T10:20:00"},
-  {"service": "auth-service", "version": "v1.5.2", "deployed_at": "2024-01-15T10:18:00"},
-  {"service": "payment-service", "version": "v3.0.1", "deployed_at": "2024-01-15T10:22:00"},
-  {"service": "user-service", "version": "v2.0.0", "deployed_at": "2024-01-15T10:21:00"},
-  {"service": "notification-service", "version": "v1.2.3", "deployed_at": "2024-01-15T10:19:00"},
-  {"service": "search-service", "version": "v1.0.5", "deployed_at": "2024-01-15T10:17:00"},
-  {"service": "order-service", "version": "v2.3.0", "deployed_at": "2024-01-15T10:23:00"}
-]

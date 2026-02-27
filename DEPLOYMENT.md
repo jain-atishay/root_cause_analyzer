@@ -4,6 +4,18 @@ To share a live link (e.g., for recruiters), you need to deploy both the **backe
 
 ---
 
+## Railway quick start
+
+1. [railway.app](https://railway.app) → **New Project** → **Deploy from GitHub** → select `root_cause_analyzer`
+2. **Add Postgres with pgvector**: + New → Database → choose **Postgres with pgVector** (or the pgvector template)
+3. **Add backend**: + New → GitHub Repo → select same repo
+   - Settings → **Root Directory**: `backend`
+   - Variables → **Add variable** → Reference `DATABASE_URL` from Postgres service
+   - Settings → Networking → **Generate Domain**
+4. Copy the backend URL and use it in Streamlit Cloud (Step 2 below) as `BACKEND_URL`
+
+---
+
 ## Architecture
 
 ```
@@ -42,14 +54,23 @@ Render uses the [deploy docs](https://render.com/docs/deploys) flow: build → s
    - Env: `DATABASE_URL` = (Internal Database URL from step 2)
 4. Deploy and copy the backend URL.
 
-### Option B: Railway
+### Option C: Railway (no credit card for free tier)
 
-1. Go to [railway.app](https://railway.app) and sign up with GitHub.
-2. New Project → Deploy from GitHub repo
-3. Add **PostgreSQL** from the template
-4. Add a **service** for the backend: same repo, root directory `backend`
-5. Set `DATABASE_URL` to the Postgres URL (Railway auto-generates it)
-6. Deploy and copy the backend URL
+**Important:** Use the **pgvector** Postgres template—standard Postgres doesn’t include the vector extension.
+
+1. Go to [railway.app](https://railway.app) → sign in with GitHub.
+2. **New Project** → **Deploy from GitHub repo** (select `root_cause_analyzer`).
+3. Add **PostgreSQL with pgvector**:
+   - Click **+ New** → **Database**
+   - Choose **Postgres** → pick **“Postgres with pgVector”** (or `pgvector/pgvector:pg16` image) if offered
+   - Or use [railway.com/deploy/postgres-with-pgvector-engine](https://railway.com/deploy/postgres-with-pgvector-engine)
+4. Add the **backend** service:
+   - **+ New** → **GitHub Repo** → select `root_cause_analyzer`
+   - Open the new service → **Settings** → set **Root Directory** to `backend`
+   - **Variables** → **+ New Variable** → Reference: `DATABASE_URL` from the Postgres service
+   - Under **Settings** → **Networking** → **Generate Domain** (to get a public URL)
+5. Deploy. The backend uses `Procfile` or `railway.json` in `backend/` for the start command.
+6. Copy the backend URL (e.g. `https://root-cause-analyzer-production-xxxx.up.railway.app`).
 
 ---
 
@@ -66,7 +87,7 @@ Render uses the [deploy docs](https://render.com/docs/deploys) flow: build → s
    ```
    BACKEND_URL = "https://your-backend-url.onrender.com"
    ```
-   (Use the URL from Step 1; no trailing slash.)
+   (Use your backend URL from Step 1; no trailing slash.)
 9. Click **Deploy**.
 
 ---

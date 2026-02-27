@@ -64,7 +64,7 @@ streamlit run app.py
 │   ├── llm.py         # Root cause summarization
 │   ├── ingestion.py   # Log/deployment ingest
 │   ├── db.py          # Postgres + pgvector
-│   └── sample_logs.jsonl / sample_deployments.json
+│   └── sample_logs.jsonl / sample_deployments.sample
 ├── frontend/          # Streamlit UI
 │   └── app.py
 ├── render.yaml        # Render Blueprint (backend + Postgres)

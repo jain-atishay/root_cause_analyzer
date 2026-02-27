@@ -18,7 +18,7 @@ echo ""
 echo "=== 3. Ingest sample deployments ==="
 curl -s -X POST "$BACKEND/ingest/deployments" \
   -H "Content-Type: application/json" \
-  -d '{"file_path": "/app/sample_deployments.json"}' | jq .
+  -d '{"file_path": "/app/sample_deployments.sample"}' | jq .
 
 echo ""
 echo "=== 4. Analyze - database connection timeout (with LLM summary) ==="
