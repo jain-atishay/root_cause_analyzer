@@ -8,5 +8,6 @@ COPY . /app/
 ARG REQUIREMENTS_FILE=requirements-railway.txt
 RUN pip install --no-cache-dir -r ${REQUIREMENTS_FILE}
 
-# Use shell so $PORT is expanded (Railway injects PORT; exec form would pass literal $PORT)
-CMD ["sh", "-c", "exec uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}"]
+COPY start.sh /app/start.sh
+RUN chmod +x /app/start.sh
+CMD ["/app/start.sh"]
