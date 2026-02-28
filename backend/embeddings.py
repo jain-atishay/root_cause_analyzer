@@ -21,15 +21,18 @@ def _pad_to_dim(vec: list, target_dim: int) -> list:
     return vec + [0.0] * (target_dim - len(vec))
 
 def _embed_openai(text: str) -> list | None:
-    """Use OpenAI API for embeddings (lightweight, no local model)."""
-    api_key = os.getenv("OPENAI_API_KEY")
-    base_url = (os.getenv("OPENAI_API_BASE") or "https://api.openai.com/v1").rstrip("/")
+    """Use OpenAI-compatible API for embeddings (OpenAI, Triton, etc.)."""
+    api_key = os.getenv("OPENAI_API_KEY") or os.getenv("TRITON_API_KEY")
+    base_url = (os.getenv("OPENAI_API_BASE") or os.getenv("TRITON_API_URL") or "https://api.openai.com/v1").rstrip("/")
+    if base_url.endswith("/embeddings"):
+        base_url = base_url[: -len("/embeddings")]
     if not api_key:
         return None
+    model = os.getenv("EMBEDDING_MODEL", "text-embedding-3-small")
     try:
         from openai import OpenAI
         client = OpenAI(api_key=api_key, base_url=base_url)
-        r = client.embeddings.create(model="text-embedding-3-small", input=text)
+        r = client.embeddings.create(model=model, input=text)
         return r.data[0].embedding
     except Exception:
         return None
