@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 from db import init_db
@@ -37,16 +37,19 @@ async def ingest_deployments_endpoint(request: IngestRequest):
 # ------------ ANALYZE ENDPOINT (with LLM summary + structured filtering) ------------
 @app.post("/analyze")
 async def analyze_logs(request: AnalyzeRequest):
-    results = find_similar_logs(
-        request.log_message,
-        top_k=request.top_k or 5,
-        level=request.level,
-        service=request.service,
-        start_time=request.start_time,
-        end_time=request.end_time,
-    )
-    summary = summarize_root_causes(request.log_message, results)
-    return {"root_causes": results, "summary": summary}
+    try:
+        results = find_similar_logs(
+            request.log_message,
+            top_k=request.top_k or 5,
+            level=request.level,
+            service=request.service,
+            start_time=request.start_time,
+            end_time=request.end_time,
+        )
+        summary = summarize_root_causes(request.log_message, results)
+        return {"root_causes": results, "summary": summary}
+    except RuntimeError as e:
+        raise HTTPException(status_code=503, detail=str(e))
 
 # ------------ CLUSTERING ENDPOINT ------------
 @app.post("/cluster")
