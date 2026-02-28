@@ -8,7 +8,7 @@ An LLM-assisted log analysis system that combines vector search and structured f
 
 ## Live Demo
 
-🔗 **[Try the app](https://your-app-url.streamlit.app)** *(add your Streamlit Cloud URL after deployment)*
+🔗 **[Try the app](https://3pe8mwmhdhgppzphazpwey.streamlit.app/)**
 
 ---
 
