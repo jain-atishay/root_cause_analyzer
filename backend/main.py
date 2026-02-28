@@ -71,6 +71,19 @@ async def correlate(service: str = Query(...)):
 def health():
     return {"status": "running"}
 
+# ------------ DEBUG (verify env vars on Railway; remove in production if desired) ------------
+@app.get("/debug/env")
+def debug_env():
+    """Shows which embedding env vars are set (no values). Use to verify Railway injects OPENAI_API_KEY."""
+    import os
+    return {
+        "OPENAI_API_KEY": "set" if os.getenv("OPENAI_API_KEY") else "unset",
+        "TRITON_API_KEY": "set" if os.getenv("TRITON_API_KEY") else "unset",
+        "TRITON_API_URL": "set" if os.getenv("TRITON_API_URL") else "unset",
+        "OPENAI_API_BASE": "set" if os.getenv("OPENAI_API_BASE") else "unset",
+        "EMBEDDING_MODEL": os.getenv("EMBEDDING_MODEL", "(default)"),
+    }
+
 # ------------ STATS (for MTTR tracking) ------------
 @app.get("/stats")
 def stats():
