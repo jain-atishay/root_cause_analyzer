@@ -146,17 +146,10 @@ st.markdown("""
         color: #6e7681;
     }
 
-    /* Hide Streamlit collapsed sidebar icon text (keyboard_double_arrow_left) */
-    [data-testid="collapsedControl"],
-    [data-testid="stSidebarCollapsedButton"] {
-        font-size: 0 !important;
-        line-height: 0 !important;
-        color: transparent !important;
-    }
-    [data-testid="collapsedControl"] *,
-    [data-testid="stSidebarCollapsedButton"] * {
-        font-size: 0 !important;
-        color: transparent !important;
+    /* Hide sidebar altogether */
+    [data-testid="stSidebar"],
+    [data-testid="collapsedControl"] {
+        display: none !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -350,19 +343,13 @@ with tab4:
             except Exception as e:
                 st.error(str(e))
 
-with st.sidebar:
-    with st.expander("Backend status"):
-        st.markdown(f"**Connected to:** [{BACKEND_URL}]({BACKEND_URL})")
-        try:
-            r = requests.get(f"{BACKEND_URL}/", timeout=5)
-            if r.status_code == 200:
-                st.success("Backend connected")
-            else:
-                st.warning(f"Backend returned {r.status_code}")
-        except Exception as e:
-            st.error(f"Backend unreachable. Set BACKEND_URL in Streamlit secrets.")
-
+# Footer with backend status
+try:
+    r = requests.get(f"{BACKEND_URL}/", timeout=5)
+    status = "Backend connected" if r.status_code == 200 else f"Backend returned {r.status_code}"
+except Exception:
+    status = "Backend unreachable"
 st.markdown(
-    '<footer>Python · FastAPI · pgvector · PostgreSQL · Streamlit</footer>',
+    f'<footer>Python · FastAPI · pgvector · PostgreSQL · Streamlit · [{BACKEND_URL}]({BACKEND_URL}) · {status}</footer>',
     unsafe_allow_html=True,
 )
