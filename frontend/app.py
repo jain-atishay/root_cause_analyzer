@@ -16,7 +16,7 @@ def _get_backend_url():
 
 BACKEND_URL = _get_backend_url()
 
-st.set_page_config(page_title="Root Cause Analyzer", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(page_title="Root Cause Analyzer", layout="wide", initial_sidebar_state="expanded")
 
 # Custom CSS: dark, minimal, professional
 st.markdown("""
@@ -146,12 +146,17 @@ st.markdown("""
         color: #6e7681;
     }
 
-    /* Hide Streamlit collapsed sidebar icon text leakage */
-    [data-testid="stSidebarCollapsedButton"],
-    [data-testid="stSidebarCollapsedButton"] svg,
-    button[kind="header"] {
-        overflow: hidden;
-        text-indent: -9999px;
+    /* Hide Streamlit collapsed sidebar icon text (keyboard_double_arrow_left) */
+    [data-testid="collapsedControl"],
+    [data-testid="stSidebarCollapsedButton"] {
+        font-size: 0 !important;
+        line-height: 0 !important;
+        color: transparent !important;
+    }
+    [data-testid="collapsedControl"] *,
+    [data-testid="stSidebarCollapsedButton"] * {
+        font-size: 0 !important;
+        color: transparent !important;
     }
 </style>
 """, unsafe_allow_html=True)
