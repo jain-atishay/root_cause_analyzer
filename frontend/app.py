@@ -145,12 +145,20 @@ st.markdown("""
         font-size: 0.75rem;
         color: #6e7681;
     }
+
+    /* Hide Streamlit collapsed sidebar icon text leakage */
+    [data-testid="stSidebarCollapsedButton"],
+    [data-testid="stSidebarCollapsedButton"] svg,
+    button[kind="header"] {
+        overflow: hidden;
+        text-indent: -9999px;
+    }
 </style>
 """, unsafe_allow_html=True)
 
 # Header
 st.title("Log Root Cause Analyzer")
-st.caption("Vector search · structured filtering · deployment correlation")
+st.caption(f"Vector search · structured filtering · deployment correlation · [Backend: {BACKEND_URL}]({BACKEND_URL})")
 
 tab1, tab2, tab3, tab4 = st.tabs(["Analyze", "Clusters", "Correlation", "Ingest"])
 
@@ -339,6 +347,7 @@ with tab4:
 
 with st.sidebar:
     with st.expander("Backend status"):
+        st.markdown(f"**Connected to:** [{BACKEND_URL}]({BACKEND_URL})")
         try:
             r = requests.get(f"{BACKEND_URL}/", timeout=5)
             if r.status_code == 200:
