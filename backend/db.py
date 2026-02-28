@@ -11,6 +11,8 @@ DATABASE_URL = os.getenv(
     "postgresql://postgres:postgres@db:5432/logs"
 )
 
+# Use Supabase connection pooler (port 6543) to avoid Railway IPv6 connectivity issues.
+# Direct connection (port 5432) often fails with "Network unreachable" from Railway.
 engine = create_engine(DATABASE_URL)
 
 
