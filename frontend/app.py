@@ -2,7 +2,19 @@ import streamlit as st
 import requests
 import os
 
-BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000").rstrip("/")
+# Streamlit Cloud injects secrets; check both st.secrets and env
+def _get_backend_url():
+    url = ""
+    try:
+        if hasattr(st, "secrets") and "BACKEND_URL" in st.secrets:
+            url = st.secrets["BACKEND_URL"]
+    except Exception:
+        pass
+    if not url:
+        url = os.getenv("BACKEND_URL", "http://localhost:8000")
+    return str(url).rstrip("/")
+
+BACKEND_URL = _get_backend_url()
 
 st.set_page_config(page_title="Root Cause Analyzer", layout="wide", initial_sidebar_state="collapsed")
 
@@ -202,6 +214,14 @@ with tab1:
                         """
                         st.markdown(html, unsafe_allow_html=True)
 
+                except requests.exceptions.RequestException as e:
+                    err = str(e)
+                    if hasattr(e, "response") and e.response is not None:
+                        try:
+                            err += f" — {e.response.text[:200]}"
+                        except Exception:
+                            pass
+                    st.error(f"Backend error: {err}")
                 except Exception as e:
                     st.error(str(e))
 
@@ -240,6 +260,14 @@ with tab2:
                             unsafe_allow_html=True,
                         )
 
+            except requests.exceptions.RequestException as e:
+                err = str(e)
+                if hasattr(e, "response") and e.response is not None:
+                    try:
+                        err += f" — {e.response.text[:200]}"
+                    except Exception:
+                        pass
+                st.error(f"Backend error: {err}")
             except Exception as e:
                 st.error(str(e))
 
@@ -308,6 +336,17 @@ with tab4:
                 st.success("Deployments ingested.")
             except Exception as e:
                 st.error(str(e))
+
+with st.sidebar:
+    with st.expander("Backend status"):
+        try:
+            r = requests.get(f"{BACKEND_URL}/", timeout=5)
+            if r.status_code == 200:
+                st.success("Backend connected")
+            else:
+                st.warning(f"Backend returned {r.status_code}")
+        except Exception as e:
+            st.error(f"Backend unreachable. Set BACKEND_URL in Streamlit secrets.")
 
 st.markdown(
     '<footer>Python · FastAPI · pgvector · PostgreSQL · Streamlit</footer>',
